@@ -26,6 +26,6 @@ build() {
 
 package() {
     cd "${_pkgname}"
-    install -dm755 "${pkgdir}/usr/lib/"
-    install -m755 "target/i686-unknown-linux-gnu/release/libextest.so" "${pkgdir}/usr/lib/libextest.so" 
+    install -dm755 "${pkgdir}/usr/lib32/"
+    install -m755 "target/i686-unknown-linux-gnu/release/libextest.so" "${pkgdir}/usr/lib32/libextest.so" 
 }
