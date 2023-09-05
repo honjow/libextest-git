@@ -21,11 +21,13 @@ build() {
     cd "${_pkgname}"
     
     rustup target add i686-unknown-linux-gnu
-    cargo build --release
+    cargo build --release --target x86_64-unknown-linux-gnu --target i686-unknown-linux-gnu
 }
 
 package() {
     cd "${_pkgname}"
+    install -dm755 "${pkgdir}/usr/lib/"
     install -dm755 "${pkgdir}/usr/lib32/"
+    install -m755 "target/x86_64-unknown-linux-gnu/release/libextest.so" "${pkgdir}/usr/lib/libextest.so" 
     install -m755 "target/i686-unknown-linux-gnu/release/libextest.so" "${pkgdir}/usr/lib32/libextest.so" 
 }
