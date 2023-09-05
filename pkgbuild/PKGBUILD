@@ -4,10 +4,10 @@ _pkgname=extest
 pkgver=r5.4596690
 pkgrel=1
 pkgdesc="X11 XTEST reimplementation primarily for Steam Controller on Wayland"
-arch=('any')
+arch=('x86_64')
 url="https://github.com/Supreeeme/extest"
 license=('MIT')
-makedepends=('cargo')
+makedepends=('cargo' 'rustup')
 provides=(libextest)
 conflicts=(sk-chos-tool)
 source=("git+$url")
@@ -19,14 +19,14 @@ pkgver() {
 }
 
 build() {
-  cd "${_pkgname}"
-
-  export RUSTUP_TOOLCHAIN=stable
-  export CARGO_TARGET_DIR=target
-  cargo build --release
+    cd "${_pkgname}"
+    
+    rustup target add i686-unknown-linux-gnu
+    cargo build --release
 }
 
 package() {
     cd "${_pkgname}"
-    install -m755 "target/release/$pkgname/libextest.so" "$pkgdir/usr/lib/libextest.so" 
+    install -dm755 "${pkgdir}/usr/lib/"
+    install -m755 "target/i686-unknown-linux-gnu/release/libextest.so" "${pkgdir}/usr/lib/libextest.so" 
 }
