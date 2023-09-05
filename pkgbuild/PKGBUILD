@@ -1,0 +1,32 @@
+# Maintainer: honjow
+pkgname=libextest-git
+_pkgname=extest
+pkgver=r5.4596690
+pkgrel=1
+pkgdesc="X11 XTEST reimplementation primarily for Steam Controller on Wayland"
+arch=('any')
+url="https://github.com/Supreeeme/extest"
+license=('MIT')
+makedepends=('cargo')
+provides=(libextest)
+conflicts=(sk-chos-tool)
+source=("git+$url")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/${_pkgname}"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${_pkgname}"
+
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release
+}
+
+package() {
+    cd "${_pkgname}"
+    install -m755 "target/release/$pkgname/libextest.so" "$pkgdir/usr/lib/libextest.so" 
+}
